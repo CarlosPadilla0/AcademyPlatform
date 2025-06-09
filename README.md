@@ -116,7 +116,7 @@ La API utiliza autenticación JWT. Primero, regístrate y obtén un token:
 ### Ejemplo de autenticación
 
 ```http
-POST /api/auth/login
+POST /login
 {
   "email": "admin@example.com",
   "password": "adminpass"
