@@ -1,0 +1,643 @@
+{
+	"info": {
+		"_postman_id": "c1a2b3d4-e5f6-4a1b-9c8d-e7f6a5b4c3d2",
+		"name": "Plataforma Académica API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "[POST] Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Nuevo Profesor\",\n    \"email\": \"profesor.nuevo@example.com\",\n    \"password\": \"password123\",\n    \"rol\": \"TEACHER\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/api/auth/register",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						},
+						"description": "Registra un nuevo usuario (ADMIN, TEACHER, o STUDENT). Requiere token de ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if (jsonData.accessToken) {",
+									"    pm.collectionVariables.set(\"token_auth\", jsonData.accessToken);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@example.com\",\n    \"password\": \"adminpass\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/api/auth/login",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Inicia sesión y guarda el token JWT en la variable de colección 'token_auth'."
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/api/auth/me",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"me"
+							]
+						},
+						"description": "Obtiene los datos del usuario autenticado."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "[GET] Listar todos los usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/api/usuarios",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Obtener usuario por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/api/usuarios/1",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[PUT] Actualizar usuario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Nombre Actualizado\",\n    \"email\": \"correo.actualizado@example.com\",\n    \"password\": \"nuevapass\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/api/usuarios/2",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[DELETE] Eliminar usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/api/usuarios/3",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Profesores",
+			"item": [
+				{
+					"name": "[GET] Listar profesores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/api/profesores",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"profesores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Obtener asignaturas de profesor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/api/profesores/1/asignaturas",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"profesores",
+								"1",
+								"asignaturas"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Estudiantes",
+			"item": [
+				{
+					"name": "[GET] Listar estudiantes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/api/estudiantes",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"estudiantes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Obtener notas de estudiante",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/api/estudiantes/2/notas",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"estudiantes",
+								"2",
+								"notas"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cursos",
+			"item": [
+				{
+					"name": "[POST] Crear curso",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Desarrollo Web Full Stack\",\n    \"anioAcademico\": \"2024\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/api/cursos",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"cursos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Listar cursos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/api/cursos",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"cursos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},{
+		"name": "Periodos Lectivos",
+			"item": [
+				{
+					"name": "[POST] Crear periodo lectivo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Semestre 2024-II\",\n    \"fecha_inicio\": \"2024-08-01\",\n    \"fecha_fin\": \"2024-12-15\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/api/periodos",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"periodos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Listar periodos lectivos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/api/periodos",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"periodos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Asignaturas",
+			"item": [
+				{
+					"name": "[POST] Crear asignatura",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Bases de Datos\",\n    \"profesor\": {\n        \"id\": 1\n    },\n    \"curso\": {\n        \"id\": 1\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/api/asignaturas",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"asignaturas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Listar asignaturas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/api/asignaturas",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"asignaturas"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+        {
+			"name": "Notas",
+			"item": [
+				{
+					"name": "[POST] Registrar nota",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"valor\": 9.5,\n    \"observaciones\": \"Excelente trabajo en el proyecto final.\",\n    \"estudiante\": {\n        \"id\": 2 \n    },\n    \"asignatura\": {\n        \"id\": 1\n    },\n    \"periodo\": {\n        \"id\": 1\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/api/notas?asignaturaId=1&estudianteId=2",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"notas"
+							],
+							"query": [
+								{ "key": "asignaturaId", "value": "1" },
+								{ "key": "estudianteId", "value": "2" }
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Ver notas por asignatura",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/api/notas/asignatura/1",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"notas",
+								"asignatura",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Materiales",
+			"item": [
+				{
+					"name": "[POST] Subir material",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"titulo\": \"Guía de Instalación de MySQL\",\n    \"descripcion\": \"Documento PDF con los pasos para instalar MySQL Server en Windows y macOS.\",\n    \"archivoUrl\": \"https://example.com/files/guia_mysql.pdf\",\n    \"asignaturaId\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/api/materiales",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"materiales"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Ver materiales por asignatura",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/api/materiales/asignatura/1",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"materiales",
+								"asignatura",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[DELETE] Eliminar material",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/api/materiales/1",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"materiales",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reportes",
+			"item": [
+				{
+					"name": "[GET] Notas promedio",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/api/reportes/notas-promedio",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"reportes",
+								"notas-promedio"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Historial estudiante",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/api/reportes/historial-estudiante/2",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"api",
+								"reportes",
+								"historial-estudiante",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token_auth}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url_base",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "token_auth",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
